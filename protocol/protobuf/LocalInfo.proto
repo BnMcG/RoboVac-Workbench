@@ -1,0 +1,46 @@
+/**
+ * Messages defined in this file:
+
+ * com.eufylife.smarthome.protobuftool.LocalInfo$LocalMessage
+ * com.eufylife.smarthome.protobuftool.LocalInfo$LocalMessage$Command_Type
+ * com.eufylife.smarthome.protobuftool.LocalInfo$PasswdMessage
+ * com.eufylife.smarthome.protobuftool.LocalInfo$StatusMessage
+ * com.eufylife.smarthome.protobuftool.LocalInfo$StatusMessage$statusInfo
+ */
+
+syntax = "proto2";
+
+package com.eufylife.smarthome.protobuftool;
+
+message LocalMessage {
+    optional uint32 magic_num = 1;
+    
+    optional Command_Type comm_type = 2;
+    enum Command_Type {
+        APP_TRANS_PASSWD = 0;
+        DEV_ACK_INFO = 1;
+        APP_ACK_INFO = 2;
+    }
+    
+    oneof playload {
+        PasswdMessage a = 3;
+        StatusMessage b = 4;
+    }
+    
+    message PasswdMessage {
+        optional string remote_ap_ssid = 1;
+        optional string remote_ap_pswd = 2;
+        optional string app_usr_id = 3;
+        optional string transaction_id = 4;
+    }
+    
+    message StatusMessage {
+        optional StatusInfo status_info = 1;
+        enum StatusInfo {
+            DATA_CORRECT = 1;
+            REV_KEYCODE_SUCCESS = 2;
+        }
+        
+        optional bytes keycode = 2;
+    }
+}

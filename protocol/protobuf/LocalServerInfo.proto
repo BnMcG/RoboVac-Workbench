@@ -1,0 +1,91 @@
+/**
+ * Messages defined in this file:
+
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$LocalServerMessage
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$DevinfoMessage$DevInfoType
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$PingPacketMessage
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$OtaPacketMessage
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$UserDataMessage
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$DevinfoMessage
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$OtaPacketMessage$OtaPacketType
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$OtaUpdateDataMessage
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$OtaPacketMessage$FailCause
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$PingPacketMessage$PingPacketType
+ * com.eufylife.smarthome.protobuftool.LocalServerInfo$UserDataMessage$UserDataType
+ */
+
+syntax = "proto2";
+
+package com.eufylife.smarthome.protobuftool;
+
+message LocalServerMessage {
+    optional uint32 magic_num = 1;
+    optional string localcode = 2;
+    
+    oneof playload {
+        PingPacketMessage a = 3;
+        OtaPacketMessage b = 4;
+        UserDataMessage c = 5;
+        DevinfoMessage d = 6;
+    }
+    
+    message PingPacketMessage {
+        optional PingPacketType type = 1;
+        enum PingPacketType {
+            PING_REQUEST = 0;
+            PING_RESPONSE = 1;
+        }
+    }
+    
+    message OtaPacketMessage {
+        optional OtaPacketType type = 1;
+        enum OtaPacketType {
+            REQUEST_UPDATE_FIRMWARE = 1;
+            PERMIT_UPDATE = 2;
+            OTA_UPDATE_DATA_SEND = 3;
+            UPDATE_DATA_VERIFY = 4;
+            OTA_UPDATE_ABORT = 5;
+            OTA_COMPLETE_NOTIFY = 6;
+            OTA_STATUS_FAILD = 7;
+            OTA_STATUS_SUCCESS = 8;
+        }
+        
+        optional uint32 otafile_size = 2;
+        
+        optional OtaUpdateDataMessage ota_data = 3;
+        message OtaUpdateDataMessage {
+            optional uint32 adr_offset = 1;
+            optional uint32 packet_length = 2;
+            optional bytes data = 3;
+        }
+        
+        optional FailCause cause = 4;
+        enum FailCause {
+            ERASE_SECTION_FAILD = 1;
+            DATA_OFFSET_ERROR = 2;
+            SWITCH_SIGN_FAILD = 3;
+            BRUN_UNFINISHED_ERROR = 4;
+        }
+    }
+    
+    message UserDataMessage {
+        optional UserDataType type = 1;
+        enum UserDataType {
+            sendUsrDataToDev = 0;
+            getDevStatusData = 1;
+            sendStausDataToApp = 2;
+        }
+        
+        optional bytes usr_data = 2;
+    }
+    
+    message DevinfoMessage {
+        optional DevInfoType type = 1;
+        enum DevInfoType {
+            REQUEST_KEYCODE = 1;
+            RESPONSE_KEYCODE = 2;
+        }
+        
+        optional bytes data = 2;
+    }
+}

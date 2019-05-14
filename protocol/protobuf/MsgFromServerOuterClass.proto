@@ -1,0 +1,31 @@
+/**
+ * Messages defined in this file:
+
+ * com.eufylife.smarthome.protobuftool.MsgFromServerOuterClass$MsgFromServer
+ * com.eufylife.smarthome.protobuftool.MsgFromServerOuterClass$MsgType
+ * com.eufylife.smarthome.protobuftool.MsgFromServerOuterClass$DataType
+ */
+
+syntax = "proto2";
+
+package com.eufylife.smarthome.protobuftool;
+
+message MsgFromServer {
+    optional MsgType msg_type = 1;
+    enum MsgType {
+        DEVICE = 0;
+        SCHEDULE = 1;
+        AWAY_MODE = 2;
+        TIMER = 3;
+    }
+    
+    optional DataType data_type = 2;
+    enum DataType {
+        ADD = 0;
+        DEL = 1;
+        MODIFY = 2;
+        NOTIFICATION = 3;
+    }
+    
+    optional string data = 3;
+}

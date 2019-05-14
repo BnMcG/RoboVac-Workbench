@@ -1,0 +1,34 @@
+/**
+ * Messages defined in this file:
+
+ * com.eufylife.smarthome.protobuftool.DevDisCoveryInfo$AppMulticastMessage
+ * com.eufylife.smarthome.protobuftool.DevDisCoveryInfo$DevRespMessage
+ * com.eufylife.smarthome.protobuftool.DevDisCoveryInfo$DevRespMessage$transType
+ */
+
+syntax = "proto2";
+
+package com.eufylife.smarthome.protobuftool;
+
+message AppMulticastMessage {
+    optional uint32 magic_num = 1;
+    optional uint32 packet_identiy = 2;
+    optional uint32 app_ipaddr = 3;
+    optional uint32 app_port = 4;
+}
+
+message DevRespMessage {
+    optional uint32 magic_num = 1;
+    optional uint32 packet_identiy = 2;
+    optional uint32 dev_ipaddr = 3;
+    optional uint32 dev_port = 4;
+    
+    optional TransType trans_type = 5;
+    enum TransType {
+        USE_TCP = 0;
+        USE_UDP = 1;
+    }
+    
+    optional string product_code = 6;
+    optional string keycode = 7;
+}
