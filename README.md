@@ -17,5 +17,10 @@ Each Eufy RoboVac seems to have a unique local code. The easiest way to find it 
 running the Eufy app and performing a few actions. You can then grep for a string like "localCode" - it should be a
 16 character code.
 
+## Tools used
+[pbtk](https://github.com/marin-m/pbtk) used to reverse engineer proto definitions from compiled Protobuf files. 
+
+[jadx](https://github.com/skylot/jadx) used to decompile the Eufy Home app and analyse how it interacts with the RoboVac.
+
 ## Acknowledgements
 Thanks to @mjg59's work on decrypting packets from Eufy devices. See it in action here: [google/python-lakeside](https://github.com/google/python-lakeside)
